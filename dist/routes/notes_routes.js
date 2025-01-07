@@ -9,6 +9,6 @@ const router = express_1.default.Router();
 router.post("/create", all_controller_1.createNote);
 router.put("/:id", all_controller_1.updateNote);
 router.delete("/delete/:id", all_controller_1.deleteNote);
-router.get("/getall", all_controller_1.getAllNotes);
-router.get("/notebyid/:id", all_controller_1.noteByid);
+router.get("/get-all", all_controller_1.getAllNotes);
+router.get("/note-by-id/:id", all_controller_1.noteById);
 exports.default = router;
