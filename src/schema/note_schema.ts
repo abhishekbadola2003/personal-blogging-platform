@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
 const noteSchema = new mongoose.Schema({
-  id: {
-    type: String,
+  number: {
+    type: Number,
     required: true,
-    unique: true,
+    unique: true, //automatically created id
   },
 
   heading: {
@@ -23,4 +23,4 @@ const noteSchema = new mongoose.Schema({
   },
 });
 
-export const Noteschema = mongoose.model("Noteschema", noteSchema);
+export const NoteSchema = mongoose.model("NoteSchema", noteSchema);

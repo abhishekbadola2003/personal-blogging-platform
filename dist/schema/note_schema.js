@@ -3,13 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Noteschema = void 0;
+exports.NoteSchema = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const noteSchema = new mongoose_1.default.Schema({
-    id: {
-        type: String,
+    number: {
+        type: Number,
         required: true,
-        unique: true,
+        unique: true, //automatically created id
     },
     heading: {
         type: String,
@@ -24,4 +24,4 @@ const noteSchema = new mongoose_1.default.Schema({
         required: true,
     },
 });
-exports.Noteschema = mongoose_1.default.model("Noteschema", noteSchema);
+exports.NoteSchema = mongoose_1.default.model("NoteSchema", noteSchema);

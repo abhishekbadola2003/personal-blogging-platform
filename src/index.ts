@@ -6,12 +6,31 @@ import mongoose, { Mongoose } from "mongoose";
 dotenv.config();
 const app = express();
 app.use(express.json());
-app.use("/notes", notes_routes);
+app.use("/api/notes", notes_routes);
 
-app.listen(4000, () => {
-  console.log(`server started running on port 4000`);
+//connect to db with error handling
+// (async () => {
+//   try {
+//     await mongoose.connect(process.env.MONGO_URI || "");
+//     console.log("Database connected successfully");
+//   } catch (error) {
+//     console.log("connection to database failed.");
+//     process.exit(1);
+//   }
+// })();
+
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`server started running on ${PORT} `);
+  console.log("Connected to MongoDb ");
 });
 
-// app.get("/", (req, res) => {
-//   res.send("server running successfullly");
-// });
+(async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI || "");
+    console.log("database connected");
+  } catch (error) {
+    console.log("error in connecting database");
+    process.exit(1);
+  }
+})();
