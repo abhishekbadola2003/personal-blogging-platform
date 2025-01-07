@@ -9,18 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.noteByid = exports.getAllNotes = exports.deleteNote = exports.updateNote = exports.createNote = void 0;
+exports.noteById = exports.getAllNotes = exports.deleteNote = exports.updateNote = exports.createNote = void 0;
 const note_schema_1 = require("../schema/note_schema");
 const createNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id, data, heading, publishedDate } = req.body;
-        if (!id || !heading || !data || !publishedDate) {
+        const { number, heading, data, publishedDate } = req.body;
+        if (!number || !heading || !data || !publishedDate) {
             res.status(400).json({ error: "fields are not fully filled" });
             return;
         }
-        const newNote = new note_schema_1.Noteschema({ id, data, heading, publishedDate });
+        const newNote = new note_schema_1.NoteSchema({ number, heading, data, publishedDate });
         yield newNote.save();
+        console.log(newNote.save());
         res.status(201).json(newNote);
+        res.send("Blog created successfully");
     }
     catch (err) {
         res.status(500).json({ error: "Error creating note" });
@@ -29,7 +31,7 @@ const createNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.createNote = createNote;
 const updateNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const updatedNote = yield note_schema_1.Noteschema.findOneAndUpdate({ id: req.params.id }, req.body, { new: true });
+        const updatedNote = yield note_schema_1.NoteSchema.findOneAndUpdate({ id: req.params._id }, req.body);
         if (!updatedNote)
             res.status(404).json({ error: "Note not found" });
         res.status(200).json(updatedNote);
@@ -42,8 +44,8 @@ const updateNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.updateNote = updateNote;
 const deleteNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const deletedNote = yield note_schema_1.Noteschema.findOneAndDelete({
-            id: req.params.id,
+        const deletedNote = yield note_schema_1.NoteSchema.findOneAndDelete({
+            id: req.params._id,
         });
         if (!deletedNote)
             res.status(200).json({ error: "note not found" });
@@ -57,7 +59,7 @@ const deleteNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.deleteNote = deleteNote;
 const getAllNotes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const notes = yield note_schema_1.Noteschema.find();
+        const notes = yield note_schema_1.NoteSchema.find();
         res.status(200).json(notes);
     }
     catch (err) {
@@ -65,9 +67,9 @@ const getAllNotes = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getAllNotes = getAllNotes;
-const noteByid = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const noteById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const note = yield note_schema_1.Noteschema.findOne({ id: req.params.id });
+        const note = yield note_schema_1.NoteSchema.findOne({ id: req.params._id });
         if (!note)
             res.status(404).json({ error: "Note not found" });
         res.status(200).json(note);
@@ -77,4 +79,4 @@ const noteByid = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(500).json({ error: "Error fetching note" });
     }
 });
-exports.noteByid = noteByid;
+exports.noteById = noteById;
