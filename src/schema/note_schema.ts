@@ -4,7 +4,7 @@ const noteSchema = new mongoose.Schema({
   number: {
     type: Number,
     required: true,
-    unique: true, //automatically created id
+    unique: true,
   },
 
   heading: {
@@ -18,7 +18,7 @@ const noteSchema = new mongoose.Schema({
   },
 
   publishedDate: {
-    type: String,
+    type: Date,
     required: true,
   },
 });
